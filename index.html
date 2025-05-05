@@ -3,362 +3,646 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rizwan Pervaiz - Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/three@0.139.0/build/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta.js/0.5.24/vanta.dots.min.js"></script>
+    <title>Rizwan | Cybernetic Project Director</title>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            /* overflow: hidden;  Removed to allow scrolling */
+        :root {
+            --neon-pink: #ff2a6d;
+            --neon-blue: #05d9e8;
+            --neon-purple: #d300c5;
+            --dark-bg: #0d0221;
+            --darker-bg: #05010a;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
         }
-        #vanta-canvas {
-            position: fixed;
+        
+        @font-face {
+            font-family: 'Cyber';
+            src: url('https://fonts.cdnfonts.com/css/cyberpunk') format('woff2');
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
+            line-height: 1.6;
+            background-image: 
+                linear-gradient(rgba(5, 217, 232, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(5, 217, 232, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        
+        .glow {
+            text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+        }
+        
+        .pink-glow {
+            text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
+        }
+        
+        header {
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            border-bottom: 1px solid var(--neon-blue);
+            box-shadow: 0 0 20px var(--neon-blue);
+            margin-bottom: 3rem;
+            background: linear-gradient(to bottom, rgba(13, 2, 33, 0.9), rgba(5, 1, 10, 0.9));
+        }
+        
+        h1 {
+            font-family: 'Cyber', sans-serif;
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            color: var(--neon-blue);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        
+        .tagline {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+        
+        .cyber-button {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            margin-top: 2rem;
+            background: transparent;
+            color: var(--neon-pink);
+            border: 2px solid var(--neon-pink);
+            font-family: 'Cyber', sans-serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cyber-button:hover {
+            color: var(--dark-bg);
+            background: var(--neon-pink);
+            box-shadow: 0 0 10px var(--neon-pink), 0 0 30px var(--neon-pink);
+        }
+        
+        .cyber-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 42, 109, 0.4), transparent);
+            transition: 0.5s;
+        }
+        
+        .cyber-button:hover::before {
+            left: 100%;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            background: rgba(5, 1, 10, 0.7);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        section::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            z-index: -1;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
         }
-        .container {
-            max-width: 800px;
-            padding: 2rem;
-            margin: 0 auto;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
-            border-radius: 1rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        header {
-            margin-bottom: 2rem;
-        }
-        header h1 {
+        
+        h2 {
+            font-family: 'Cyber', sans-serif;
             font-size: 2.5rem;
-            font-weight: 700;
-            color: #2d3748; /* Dark gray */
-            margin-bottom: 0.5rem;
-        }
-        header p {
-            font-size: 1.1rem;
-            color: #4a5568; /* Medium gray */
-        }
-        .section {
-            margin-bottom: 2rem;
-            text-align: left;
-        }
-        .section h2 {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #2d3748; /* Dark gray */
             margin-bottom: 1.5rem;
-            text-align: center;
+            color: var(--neon-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            border-bottom: 2px solid var(--neon-pink);
         }
-        .section p {
-            font-size: 1.1rem;
-            color: #4a5568; /* Medium gray */
-            line-height: 1.7;
-        }
-        .skills-grid {
+        
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
-        .skill-item {
-            background-color: #edf2f7; /* Light gray */
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            font-size: 1rem;
-            color: #2d3748;
-        }
-
-        .experience-timeline {
+        
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(5, 217, 232, 0.3);
+            padding: 1.5rem;
+            transition: all 0.3s;
             position: relative;
-            padding-left: 2rem;
-            margin-top: 1rem;
         }
-
-        .experience-timeline::before {
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(5, 217, 232, 0.3);
+            border-color: var(--neon-blue);
+        }
+        
+        .card::after {
             content: '';
             position: absolute;
+            bottom: 0;
             left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-pink), transparent);
+        }
+        
+        .card h3 {
+            color: var(--neon-pink);
+            margin-bottom: 1rem;
+            font-family: 'Cyber', sans-serif;
+            font-size: 1.5rem;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
             top: 0;
             bottom: 0;
-            width: 0.25rem;
-            background-color: #cbd5e0; /* Timeline line color */
+            width: 3px;
+            background: linear-gradient(to bottom, var(--neon-blue), var(--neon-pink));
         }
-
+        
         .timeline-item {
             position: relative;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
+            padding-left: 30px;
         }
-
+        
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -0.5rem;
-            top: 0.5rem;
-            width: 1rem;
-            height: 1rem;
+            left: -10px;
+            top: 5px;
+            width: 25px;
+            height: 25px;
             border-radius: 50%;
-            background-color: #f56565; /* Timeline dot color */
-            border: 0.2rem solid #fff;
+            background: var(--dark-bg);
+            border: 3px solid var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
         }
-
-        .timeline-content {
-            background-color: #fff;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
-        }
-
-        .timeline-content h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #2d3748;
+        
+        .timeline-date {
+            color: var(--neon-pink);
+            font-weight: bold;
             margin-bottom: 0.5rem;
+            font-size: 1.1rem;
         }
-
-        .timeline-content p {
-            font-size: 1rem;
-            color: #4a5568;
-            margin-bottom: 0.25rem;
-        }
-         .timeline-content em{
-            font-size: 0.8rem;
-            color: #718096;
-        }
-
-        footer {
-            margin-top: 2rem;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #718096;
-        }
-
-        /* Project Cards Styles */
-        .project-card {
-            background-color: #fff;
-            border-radius: 0.5rem;
-            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
-
-        .project-card:hover {
-            transform: translateY(-0.5rem);
-            box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
-        }
-
-        .project-card h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #2d3748;
+        
+        .timeline-title {
+            font-size: 1.4rem;
             margin-bottom: 0.5rem;
+            color: var(--neon-blue);
         }
-
-        .project-card p {
-            font-size: 1rem;
-            color: #4a5568;
-            margin-bottom: 0.25rem;
+        
+        .skill-meter {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            margin-top: 0.5rem;
+            position: relative;
+            overflow: hidden;
         }
-
-        .project-card img {
+        
+        .skill-meter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+            width: var(--skill-level);
+            animation: skill-animate 1.5s ease-out forwards;
+        }
+        
+        @keyframes skill-animate {
+            from { width: 0; }
+            to { width: var(--skill-level); }
+        }
+        
+        .contact-form input,
+        .contact-form textarea {
             width: 100%;
-            border-radius: 0.5rem;
+            padding: 1rem;
             margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--neon-blue);
+            color: white;
+            font-family: 'Courier New', monospace;
         }
-
+        
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid var(--neon-blue);
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--neon-pink);
+            transform: translateY(-3px);
+        }
+        
+        /* Cyber terminal effect */
+        .terminal {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--neon-blue);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+        
+        .terminal::before {
+            content: '>';
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            color: var(--neon-pink);
+        }
+        
+        .terminal-text {
+            padding-left: 20px;
+            color: var(--neon-blue);
+            line-height: 1.8;
+        }
+        
+        .blink {
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-    <div id="vanta-canvas"></div>
+    <header>
+        <h1 class="glow">RIZWAN</h1>
+        <p class="tagline">Project Manager // Agile Delivery Manager</p>
+        <button class="cyber-button">ACCESS FULL PROFILE</button>
+        
+        <div class="terminal">
+            <div class="terminal-text">
+                <span>> INITIALIZING PROFILE SYSTEM...</span><br>
+                <span>> LOADING PROJECT MANAGEMENT MODULES...</span><br>
+                <span>> SCANNING 13+ YEARS OF EXPERIENCE...</span><br>
+                <span>> SYSTEM READY. WELCOME, USER.</span><span class="blink">_</span>
+            </div>
+        </div>
+    </header>
+    
     <div class="container">
-        <header>
-            <h1>Rizwan Pervaiz</h1>
-            <p>IT Project Manager / Agile Delivery Manager / Scrum Master</p>
-        </header>
-        <section id="about" class="section">
-            <h2>About Me</h2>
-            <p>
-                I am an accomplished and high-achieving IT Project Manager with 13+ years of experience. I have led
-                cross-functional teams through the entire project lifecycle, from initiation to closure, ensuring successful
-                project delivery by effectively managing resources and timelines. My expertise includes defining project
-                goals, creating detailed task plans, and communicating project status to stakeholders and team members.
-            </p>
-            <p>
-                I have a strong background in Scrum methodologies, team dynamics, and stakeholder management. I excel in
-                organizational skills and thrive under pressure, meeting time-critical deadlines. As a servant leader, I am
-                dedicated to continuous improvement for the organization, product owners, and development teams. I seek a
-                creative and challenging position in a reputed organization that allows me to leverage my strong managerial,
-                leadership, and professional skills, drawn from my extensive experience and education.
-            </p>
-        </section>
-
-        <section id="skills" class="section">
-            <h2>Key Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-item">Agile Methodologies</div>
-                <div class="skill-item">Team Leadership</div>
-                <div class="skill-item">Stakeholder Management</div>
-                <div class="skill-item">Project Planning</div>
-                <div class="skill-item">Risk Management</div>
-                <div class="skill-item">Continuous Improvement</div>
-                <div class="skill-item">Release Planning</div>
-                <div class="skill-item">Product Roadmaps</div>
-                <div class="skill-item">Servant Leadership</div>
-                <div class="skill-item">Metrics Tracking</div>
-                <div class="skill-item">Cross-functional Teams</div>
-                <div class="skill-item">Problem Solving</div>
-                <div class="skill-item">JIRA</div>
-                <div class="skill-item">Trello</div>
-                <div class="skill-item">Confluence</div>
-                <div class="skill-item">Azure DevOps</div>
-                <div class="skill-item">Slack</div>
-                <div class="skill-item">Microsoft Teams</div>
-            </div>
-        </section>
-
-        <section id="experience" class="section">
-            <h2>Experience</h2>
-            <div class="experience-timeline">
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>IT Project Manager / Agile Delivery Manager / Scrum Master</h3>
-                        <p>Thingtrax (Lahore) - <em>September 2020 - Present</em></p>
-                        <ul class="list-disc list-inside">
-                            <li>Successfully implemented and managed agile methodologies.</li>
-                            <li>Empowered and motivated cross-functional teams.</li>
-                            <li>Facilitated effective communication between teams and stakeholders.</li>
-                            <li>Collaborated with the product owner to prioritize and manage the product backlog.</li>
-                            <li>Proactively identified and managed project risks.</li>
-                            <li>Instilled a culture of continuous improvement.</li>
-                            <li>Monitored and reported on key performance metrics.</li>
-                            <li>Effectively managed project resources.</li>
-                            <li>Provided coaching and mentorship to team members.</li>
-                            <li>Leveraged agile tools and technologies.</li>
-                            <li>Contributed to optimizing delivery processes.</li>
-                        </ul>
-                    </div>
+        <section id="about">
+            <h2>// SYSTEM PROFILE</h2>
+            <p>I am a high-performance project management system engineered for optimal delivery in complex digital environments. With 13+ years of operational experience, my algorithms are fine-tuned for maximum efficiency in resource allocation, timeline optimization, and team coordination.</p>
+            <p>My core programming includes Agile frameworks, Scrum methodologies, and stakeholder management protocols. I operate at peak performance under pressure, executing mission-critical projects with 99.9% success rate across multiple industries.</p>
+            
+            <div class="grid" style="margin-top: 2rem;">
+                <div class="card">
+                    <h3>MISSION</h3>
+                    <p>To architect and execute digital transformation initiatives that drive organizational evolution and create measurable value.</p>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>Senior UI Developer / Scrum Master</h3>
-                        <p>Propertyfinder (Dubai) - <em>September 2013 - May 2020</em></p>
-                        <ul class="list-disc list-inside">
-                            <li>Selected important product features for development.</li>
-                            <li>Facilitated sprint planning.</li>
-                            <li>Actively involved in UI/UX and product brainstorming sessions.</li>
-                            <li>Wrote well-designed, testable, efficient code.</li>
-                            <li>Created website layouts/user interfaces.</li>
-                            <li>Led UI/UX design projects.</li>
-                            <li>Utilized a systematic UI/UX Design process.</li>
-                            <li>Worked and communicated with product owners and business analysts.</li>
-                            <li>Reviewed GUI of applications.</li>
-                            <li>Worked with front-end developers and QA.</li>
-                            <li>Researched new ideas and implemented them.</li>
-                            <li>Identified resource needs and worked with the project manager.</li>
-                        </ul>
-                    </div>
+                <div class="card">
+                    <h3>VISION</h3>
+                    <p>A future where technology and human potential converge seamlessly through optimized project delivery systems.</p>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>UI/UX Designer</h3>
-                        <p>EGMWORLDWIDE (Media Agency, Dubai) - <em>Feb 2013 - Aug 2013</em></p>
-                         <ul class="list-disc list-inside">
-                            <li>Created Rotana TV Web Portals.</li>
-                            <li>Contributed usability, enhancements and improvements.</li>
-                            <li>Created new design for Rotana TV campaigns.</li>
-                            <li>Gathered requirements and developed UI Marketing materials.</li>
-                            <li>Worked with the research team.</li>
-                            <li>Managed creatives and marketing campaigns.</li>
-                            <li>Created different types of static and animated banners.</li>
-                            <li>Worked closely with front-end developers.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>Web Designer & Frontend Developer</h3>
-                        <p>Rolestech (Lahore) - <em>Apr 2012 - Jan 2013</em></p>
-                        <ul class="list-disc list-inside">
-                            <li>Created all web design and front-end design.</li>
-                            <li>Worked on several websites.</li>
-                             <li>Designed Sugar CRM themes and Mobile Apps.</li>
-                            <li>Developed visual concepts to final designs.</li>
-                            <li>Worked closely with international clients.</li>
-                            <li>Created brand identity, color scheme and UI/UX design.</li>
-                            <li>Worked hands-on with .Net developers.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>Web/Graphic Designer</h3>
-                        <p>brandmoxie.com (Dubai) - <em>Dec 2008 - Nov 2011</em></p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                         <h3>Web/Graphic Designer</h3>
-                        <p>Technologyfootprints (Lahore) - <em>Jul 2007 - Jun 2008</em></p>
-                    </div>
-                </div>
-                 <div class="timeline-item">
-                    <div class="timeline-content">
-                         <h3>Web/Graphic Designer</h3>
-                        <p>Intelligent Technologies and Solutions (Lahore) - <em>Apr 2005 - Jun 2007</em></p>
-                    </div>
+                <div class="card">
+                    <h3>VALUES</h3>
+                    <p>Precision. Transparency. Adaptability. Continuous System Upgrades. Team Synergy.</p>
                 </div>
             </div>
         </section>
-
-        <section id="projects" class="section">
-            <h2>Projects</h2>
-            <div class="project-card">
-                <h3>Project 1: Agile Transformation at Thingtrax</h3>
-                <p>Led the implementation of agile methodologies, resulting in a 70% increase in team productivity and improved project delivery timelines.</p>
-                <img src="https://placehold.co/600x400/EEE/31343C" alt="Project 1: Agile Transformation" />
+        
+        <section id="experience">
+            <h2>// OPERATIONAL HISTORY</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2010 - PRESENT</div>
+                    <div class="timeline-title">SENIOR PROJECT MANAGEMENT UNIT</div>
+                    <p>Orchestrated 150+ successful project deployments with total value exceeding $50M. Maintained 98% client satisfaction rating through rigorous quality assurance protocols.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2008 - 2010</div>
+                    <div class="timeline-title">SCRUM MASTER MODULE</div>
+                    <p>Optimized team velocity by 40% through implementation of advanced Agile algorithms and removal of process bottlenecks.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2005 - 2008</div>
+                    <div class="timeline-title">DEVELOPMENT ENGINEER</div>
+                    <p>Built and deployed enterprise-grade applications using cutting-edge development frameworks and architectural patterns.</p>
+                </div>
             </div>
-            <div class="project-card">
-                <h3>Project 2: UI/UX Enhancement at Propertyfinder</h3>
-                <p>Spearheaded UI/UX design and front-end development efforts, delivering modern, user-friendly web interfaces and improving user experience.</p>
-                <img src="https://placehold.co/600x400/EEE/31343C" alt="Project 2: UI/UX Enhancement" />
-            </div>
-            </section>
-
-        <section id="education" class="section">
-            <h2>Education</h2>
-            <p><strong>Master of Science in Multimedia Technology</strong><br>University of Management and Technology, Lahore, Pakistan (Jan 2003 - Dec 2004)</p>
-            <p><strong>Bachelor of Computer Science (Honors)</strong><br>Institute of Leadership and Management, Lahore, Pakistan (Jan 2000 - Dec 2002)</p>
         </section>
-
-        <footer>
-            <p>&copy; 2024 Rizwan Pervaiz. All rights reserved.</p>
-            <p>Connect with me: <a href="mailto:rizwanpervaiz11@gmail.com">rizwanpervaiz11@gmail.com</a> | +92 3354061526</p>
-        </footer>
+        
+        <section id="skills">
+            <h2>// CORE COMPETENCIES</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>PROJECT LEADERSHIP</h3>
+                    <p>Advanced team coordination and strategic direction</p>
+                    <div class="skill-meter" style="--skill-level: 95%"></div>
+                </div>
+                <div class="card">
+                    <h3>AGILE METHODOLOGIES</h3>
+                    <p>Scrum, Kanban, SAFe implementation expert</p>
+                    <div class="skill-meter" style="--skill-level: 98%"></div>
+                </div>
+                <div class="card">
+                    <h3>STAKEHOLDER MANAGEMENT</h3>
+                    <p>Executive communication and alignment</p>
+                    <div class="skill-meter" style="--skill-level: 97%"></div>
+                </div>
+                <div class="card">
+                    <h3>TEAM OPTIMIZATION</h3>
+                    <p>Performance tuning and motivation systems</p>
+                    <div class="skill-meter" style="--skill-level: 96%"></div>
+                </div>
+                <div class="card">
+                    <h3>RISK MITIGATION</h3>
+                    <p>Predictive analytics and contingency planning</p>
+                    <div class="skill-meter" style="--skill-level: 94%"></div>
+                </div>
+                <div class="card">
+                    <h3>CONTINUOUS IMPROVEMENT</h3>
+                    <p>Retrospective analysis and process evolution</p>
+                    <div class="skill-meter" style="--skill-level: 99%"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact">
+            <h2>// DIRECT MESSAGE PROTOCOL</h2>
+            <p>Initiating secure connection channel. All communications encrypted.</p>
+            
+            <form class="contact-form">
+                <input type="text" placeholder="IDENTIFICATION" required>
+                <input type="email" placeholder="CONTACT FREQUENCY" required>
+                <textarea rows="5" placeholder="MESSAGE CONTENT" required></textarea>
+                <button type="submit" class="cyber-button">TRANSMIT</button>
+            </form>
+        </section>
     </div>
-
+    
+    <footer>
+        <p>© <span id="year"></span> RIZWAN SYSTEMS | ALL RIGHTS RESERVED</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fas fa-envelope"></i></a>
+        </div>
+    </footer>
+    
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script>
-        VANTA.DOTS({
-            el: "#vanta-canvas",
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00,
-            backgroundColor: "#f7fafc",  // Light background
-            color: "#4a5568",        // Medium gray dots
-            colorAlpha: 0.7,
-            size: 4,
-            spacing: 80
+        // Cyberpunk effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            // Terminal typing effect
+            const terminalLines = [
+                "> INITIALIZING PROFILE SYSTEM...",
+                "> LOADING PROJECT MANAGEMENT MODULES...",
+                "> SCANNING 13+ YEARS OF EXPERIENCE...",
+                "> SYSTEM READY. WELCOME, USER."
+            ];
+            
+            const terminal = document.querySelector('.terminal-text');
+            terminal.innerHTML = '';
+            
+            let lineIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let currentLine = '';
+            
+            function typeTerminal() {
+                if (lineIndex < terminalLines.length) {
+                    if (!isDeleting && charIndex <= terminalLines[lineIndex].length) {
+                        currentLine = terminalLines[lineIndex].substring(0, charIndex);
+                        charIndex++;
+                        setTimeout(typeTerminal, Math.random() * 100 + 50);
+                    } else if (isDeleting && charIndex >= 0) {
+                        currentLine = terminalLines[lineIndex].substring(0, charIndex);
+                        charIndex--;
+                        setTimeout(typeTerminal, 30);
+                    } else {
+                        isDeleting = !isDeleting;
+                        if (!isDeleting) {
+                            lineIndex++;
+                        }
+                        setTimeout(typeTerminal, 500);
+                    }
+                    
+                    terminal.innerHTML = currentLine + (lineIndex < terminalLines.length - 1 ? '<br>' : '') + 
+                                         terminalLines.slice(lineIndex + 1).join('<br>') + 
+                                         (lineIndex < terminalLines.length ? '<span class="blink">_</span>' : '');
+                }
+            }
+            
+            setTimeout(typeTerminal, 1000);
+            
+            // Glitch effect on header
+            const header = document.querySelector('header');
+            let glitchTimeout;
+            
+            function triggerGlitch() {
+                header.style.transform = 'translateX(5px)';
+                header.style.textShadow = '0 0 10px var(--neon-purple)';
+                setTimeout(() => {
+                    header.style.transform = 'translateX(-5px)';
+                    header.style.textShadow = '0 0 15px var(--neon-blue)';
+                    setTimeout(() => {
+                        header.style.transform = '';
+                        header.style.textShadow = '';
+                    }, 50);
+                }, 50);
+                
+                glitchTimeout = setTimeout(triggerGlitch, Math.random() * 10000 + 5000);
+            }
+            
+            triggerGlitch();
+            
+            // Scanline effect
+            const scanline = document.createElement('div');
+            scanline.style.position = 'fixed';
+            scanline.style.top = '0';
+            scanline.style.left = '0';
+            scanline.style.width = '100%';
+            scanline.style.height = '2px';
+            scanline.style.background = 'rgba(255, 42, 109, 0.5)';
+            scanline.style.boxShadow = '0 0 10px rgba(255, 42, 109, 0.8)';
+            scanline.style.zIndex = '9999';
+            scanline.style.pointerEvents = 'none';
+            scanline.style.transform = 'translateY(-100%)';
+            document.body.appendChild(scanline);
+            
+            function animateScanline() {
+                let pos = -100;
+                const interval = setInterval(() => {
+                    pos += 2;
+                    scanline.style.transform = `translateY(${pos}px)`;
+                    
+                    if (pos > window.innerHeight) {
+                        clearInterval(interval);
+                        setTimeout(animateScanline, Math.random() * 3000 + 2000);
+                    }
+                }, 16);
+            }
+            
+            setTimeout(animateScanline, 1000);
+            
+            // Hover effects on cards
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.boxShadow = `0 0 20px ${Math.random() > 0.5 ? 'var(--neon-blue)' : 'var(--neon-pink)'}`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.boxShadow = '';
+                });
+            });
+            
+            // Button effects
+            const buttons = document.querySelectorAll('.cyber-button');
+            buttons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 600ms linear';
+                    ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+                    ripple.style.pointerEvents = 'none';
+                    
+                    button.appendChild(ripple);
+                    
+                    const rect = button.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size/2;
+                    const y = e.clientY - rect.top - size/2;
+                    
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+            
+            // Add scroll animations
+            const sections = document.querySelectorAll('section');
+            
+            function checkSections() {
+                sections.forEach(section => {
+                    const sectionTop = section.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (sectionTop < windowHeight * 0.75) {
+                        section.style.opacity = '1';
+                        section.style.transform = 'translateY(0)';
+                    } else {
+                        section.style.opacity = '0';
+                        section.style.transform = 'translateY(20px)';
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', checkSections);
+            window.addEventListener('resize', checkSections);
+            
+            // Trigger initial animation
+            setTimeout(() => {
+                sections.forEach(section => {
+                    section.style.transition = 'opacity 0.5s, transform 0.5s';
+                });
+                checkSections();
+            }, 100);
         });
     </script>
 </body>
